@@ -18,11 +18,14 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      # `packages` must be set explicitly: the action's default is the obsolete `tools`
-      # package, which sdkmanager no longer serves, and it fails the job.
+      # packages: '' installs nothing and only accepts the SDK licences. The action's
+      # default is the obsolete `tools` package, which fails the job, and asking for
+      # android-37 by name fails too because the runner's bundled sdkmanager has an
+      # older repository index. Gradle fetches the platform and build-tools itself
+      # against a current index, so leave it to Gradle.
       - uses: android-actions/setup-android@v3
         with:
-          packages: 'platform-tools platforms;android-37 build-tools;37.0.0'
+          packages: ''
 
       - uses: gradle/actions/setup-gradle@v4
 
