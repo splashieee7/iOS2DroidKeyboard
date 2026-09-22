@@ -20,7 +20,12 @@ jobs:
           distribution: temurin
           java-version: '21'
 
+      # `packages` must be set explicitly: the action's default is the obsolete `tools`
+      # package, which sdkmanager no longer serves, and it fails the job. build-tools is
+      # needed here beyond building, for the apksigner verification step below.
       - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-37 build-tools;37.0.0'
 
       - uses: gradle/actions/setup-gradle@v4
 
