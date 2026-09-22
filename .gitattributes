@@ -1,0 +1,12 @@
+# Normalise text files, but keep anything a shell has to execute as LF regardless of
+# platform. A CRLF gradlew fails on the Linux CI runner with "bad interpreter".
+* text=auto
+
+gradlew text eol=lf
+*.sh text eol=lf
+
+*.jar binary
+*.webp binary
+*.png binary
+*.jks binary
+*.keystore binary

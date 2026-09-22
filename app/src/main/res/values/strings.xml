@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">iOS2DroidKeyBoard</string>
+    <string name="subtype_en_us">English (US)</string>
+
+    <string name="settings_title">iOS2DroidKeyBoard</string>
+    <string name="settings_step_enable">1. Enable the keyboard in system settings</string>
+    <string name="settings_step_switch">2. Switch to it</string>
+    <string name="settings_enable_button">Open keyboard settings</string>
+    <string name="settings_switch_button">Choose keyboard</string>
+    <string name="settings_status_enabled">Enabled</string>
+    <string name="settings_status_disabled">Not enabled yet</string>
+</resources>
