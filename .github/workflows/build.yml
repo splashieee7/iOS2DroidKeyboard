@@ -1,0 +1,49 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      # packages: '' installs nothing and only accepts the SDK licences. The action's
+      # default is the obsolete `tools` package, which fails the job, and asking for
+      # android-37 by name fails too because the runner's bundled sdkmanager has an
+      # older repository index. Gradle fetches the platform and build-tools itself
+      # against a current index, so leave it to Gradle.
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: ''
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Assemble debug
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: Unit tests
+        run: ./gradlew testDebugUnitTest
+
+      - name: Lint
+        run: ./gradlew lintDebug
+
+      # Hard rule from CLAUDE.md - a dependency must never be able to add INTERNET.
+      - name: Verify no INTERNET permission
+        run: ./gradlew checkNoInternetPermission
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
